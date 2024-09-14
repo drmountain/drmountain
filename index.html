@@ -75,136 +75,145 @@
     <div class="save-counter" id="saveCounter">Left Saves: 0 | Right Saves: 0</div>
 
     <script>
-        const canvas = document.getElementById("pongCanvas");
-        const ctx = canvas.getContext("2d");
+     
+    const canvas = document.getElementById("pongCanvas");
+    const ctx = canvas.getContext("2d");
 
-        // Resize canvas to fit the screen
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+    // Resize canvas to fit the screen
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Ball properties
+    let ball = {
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        radius: 10,
+        speed: canvas.width / 2.5, // Ball travels across the canvas in 2.5 seconds
+        dx: 1, // Direction on the x-axis (+1 or -1)
+        dy: 1, // Direction on the y-axis (+1 or -1)
+    };
+
+    // Player paddle properties
+    const paddleWidth = 20;
+    const paddleHeight = 100;
+    let leftPaddleY = (canvas.height - paddleHeight) / 2;
+    let rightPaddleY = (canvas.height - paddleHeight) / 2;
+
+    // Save counters
+    let leftSaves = 0;
+    let rightSaves = 0;
+
+    // AI paddle image (right player)
+    const aiPaddleImg = new Image();
+    aiPaddleImg.src = 'kjerstiberg.png'; // Replace with the path to your image
+
+    // Mouse and touch movement controls the left paddle
+    function moveLeftPaddle(y) {
+        leftPaddleY = y - paddleHeight / 2;
+    }
+
+    canvas.addEventListener("mousemove", function(event) {
+        moveLeftPaddle(event.clientY);
+    });
+
+    canvas.addEventListener("touchmove", function(event) {
+        const touch = event.touches[0];
+        moveLeftPaddle(touch.clientY);
+    });
+
+    // Function to draw paddles and ball
+    function drawPaddle(x, y, width, height) {
+        ctx.fillStyle = "pink";
+        ctx.fillRect(x, y, width, height);
+    }
+
+    function drawBall() {
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+        ctx.fillStyle = "pink";
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function drawAiPaddle(x, y) {
+        const aiPaddleSize = paddleHeight; // Make the AI paddle square
+        ctx.drawImage(aiPaddleImg, x, y, aiPaddleSize, aiPaddleSize);
+    }
+
+    // Update the game state with time-based velocity
+    let lastTime = performance.now();
+
+    function update() {
+        const currentTime = performance.now();
+        const deltaTime = (currentTime - lastTime) / 1000; // Time in seconds since the last frame
+
+        // Move the ball based on time
+        ball.x += ball.speed * ball.dx * deltaTime;
+        ball.y += ball.speed * ball.dy * deltaTime;
+
+        // Ball collision with top and bottom walls
+        if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+            ball.dy = -ball.dy;
         }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
 
-        // Ball properties
-        let ball = {
-            x: canvas.width / 2,
-            y: canvas.height / 2,
-            radius: 10,
-            dx: 4,
-            dy: 4
-        };
-
-        // Player paddle properties
-        const paddleWidth = 20;
-        const paddleHeight = 100;
-        let leftPaddleY = (canvas.height - paddleHeight) / 2;
-        let rightPaddleY = (canvas.height - paddleHeight) / 2;
-
-        // Save counters
-        let leftSaves = 0;
-        let rightSaves = 0;
-
-        // AI paddle image (right player)
-        const aiPaddleImg = new Image();
-        aiPaddleImg.src = 'kjerstiberg.png'; // Replace with the path to your image
-
-        // Mouse and touch movement controls the left paddle
-        function moveLeftPaddle(y) {
-            leftPaddleY = y - paddleHeight / 2;
+        // Ball collision with left paddle (player-controlled)
+        if (ball.x - ball.radius < paddleWidth && ball.y > leftPaddleY && ball.y < leftPaddleY + paddleHeight) {
+            ball.dx = -ball.dx;
+            leftSaves++;
+            updateSaveCounter();
         }
 
-        canvas.addEventListener("mousemove", function(event) {
-            moveLeftPaddle(event.clientY);
-        });
+        // AI paddle (right side) always follows the ball
+        rightPaddleY = ball.y - paddleHeight / 2;
 
-        canvas.addEventListener("touchmove", function(event) {
-            const touch = event.touches[0];
-            moveLeftPaddle(touch.clientY);
-        });
-
-        // Function to draw paddles and ball
-        function drawPaddle(x, y, width, height) {
-            ctx.fillStyle = "pink";
-            ctx.fillRect(x, y, width, height);
+        // Ball collision with right paddle (AI)
+        const aiPaddleSize = paddleHeight;
+        if (ball.x + ball.radius > canvas.width - aiPaddleSize && ball.y > rightPaddleY && ball.y < rightPaddleY + aiPaddleSize) {
+            ball.dx = -ball.dx;
+            rightSaves++;
+            updateSaveCounter();
         }
 
-        function drawBall() {
-            ctx.beginPath();
-            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-            ctx.fillStyle = "pink";
-            ctx.fill();
-            ctx.closePath();
+        // Ball out of bounds (reset to center)
+        if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+            ball.dx = -ball.dx;
         }
 
-        function drawAiPaddle(x, y) {
-            const aiPaddleSize = paddleHeight; // Make the AI paddle square
-            ctx.drawImage(aiPaddleImg, x, y, aiPaddleSize, aiPaddleSize);
-        }
+        lastTime = currentTime; // Update time for the next frame
+    }
+
+    // Update the save counter display
+    function updateSaveCounter() {
+        document.getElementById('saveCounter').innerText = `Left Saves: ${leftSaves} | Right Saves: ${rightSaves}`;
+    }
+
+    // Main game loop
+    function gameLoop() {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw paddles and ball
+        drawPaddle(0, leftPaddleY, paddleWidth, paddleHeight); // Left paddle (player-controlled)
+        drawAiPaddle(canvas.width - paddleHeight, rightPaddleY); // Right paddle (AI), square shape
+        drawBall();
 
         // Update game state
-        function update() {
-            // Move the ball
-            ball.x += ball.dx;
-            ball.y += ball.dy;
+        update();
 
-            // Ball collision with top and bottom walls
-            if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-                ball.dy = -ball.dy;
-            }
+        // Loop the game
+        requestAnimationFrame(gameLoop);
+    }
 
-            // Ball collision with left paddle (player-controlled)
-            if (ball.x - ball.radius < paddleWidth && ball.y > leftPaddleY && ball.y < leftPaddleY + paddleHeight) {
-                ball.dx = -ball.dx;
-                leftSaves++; // Increment left paddle saves
-                updateSaveCounter(); // Update the display
-            }
-
-            // AI paddle (right side) always saves
-            rightPaddleY = ball.y - paddleHeight / 2;
-
-            // Ball collision with right paddle (AI)
-            const aiPaddleSize = paddleHeight; // Ensure the AI paddle is square
-            if (ball.x + ball.radius > canvas.width - aiPaddleSize && ball.y > rightPaddleY && ball.y < rightPaddleY + aiPaddleSize) {
-                ball.dx = -ball.dx;
-                rightSaves++; // Increment right paddle saves
-                updateSaveCounter(); // Update the display
-            }
-
-            // Ball out of bounds (reset to center)
-            if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
-                ball.x = canvas.width / 2;
-                ball.y = canvas.height / 2;
-                ball.dx = -ball.dx;
-            }
-        }
-
-        // Update the save counter display
-        function updateSaveCounter() {
-            document.getElementById('saveCounter').innerText = `Left Saves: ${leftSaves} | Right Saves: ${rightSaves}`;
-        }
-
-        // Main game loop
-        function gameLoop() {
-            // Clear canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw paddles and ball
-            drawPaddle(0, leftPaddleY, paddleWidth, paddleHeight); // Left paddle (player-controlled)
-            drawAiPaddle(canvas.width - paddleHeight, rightPaddleY); // Right paddle (AI), square shape
-            drawBall();
-
-            // Update game state
-            update();
-
-            // Loop the game
-            requestAnimationFrame(gameLoop);
-        }
-
-        // Start the game loop when the AI image has loaded
-        aiPaddleImg.onload = function() {
-            gameLoop();
-        };
+    // Start the game loop when the AI image has loaded
+    aiPaddleImg.onload = function() {
+        gameLoop();
+    };
 
         // Thumbs up counter
         let thumbsUpCount = 33;
