@@ -3,25 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DR.MOUNTAIN: HOLD THE DATE: 26/10/2024 @TRONDHEIM</title>
+    <title>Har jeg svart på melding og fortalt Kjersti at jeg kommer?</title>
     <style>
         body {
-            margin: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: rgb(206,161,104);
-            overflow: hidden;
             background: url('bg.png') no-repeat center center fixed;
+            color: white;
+            font-family: Arial, sans-serif;
             background-size: cover;
             position: relative;
         }
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+
+        a:link { 
+        text-decoration: none; 
+        } 
+        a:visited { 
+        text-decoration: none; 
+        color: rgba(255, 0, 195, 0.5);
+        } 
+        a:hover { 
+        text-decoration: none; 
+        color: rgba(255, 0, 195, 0.5);
+        text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+        } 
+        a:active { 
+        text-decoration: none; 
+        color: rgba(0, 255, 255, 0.7);
         }
+
         .spinning-text {
             position: absolute;
             font-size: 2.5em; /* Smaller font size */
@@ -38,6 +52,35 @@
             padding: 20px;
             pointer-events: none;
         }
+
+        h1 {
+            
+            font-size: 5vw;
+            font-family: 'Arial', sans-serif;
+            color: rgba(255, 0, 195, 0.8);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+            font-weight: 900;
+            
+  font-stretch: expanded;
+  opacity: 0.7; /* 50% transparency for the cyberpunk effect */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 1000;
+            font-weight: bold;
+            text-align: center;
+            animation: colorChange 5s infinite;
+        }
+
+        @keyframes colorChange {
+            0% { color: rgba(255, 0, 195, 0.8); }
+            25% { color: rgba(0, 255, 255, 0.8); }
+            50% { color: rgba(255, 0, 195, 0.8); }
+            75% { color: rgba(0, 255, 255, 0.8); }
+            100% { color: rgba(255, 0, 195, 0.8); }
+        }
+
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
@@ -52,219 +95,173 @@
             50% { text-shadow: 0 0 20px rgba(255, 0, 195, 0.7); }
             100% { text-shadow: 0 0 5px rgba(0, 255, 255, 0.7); }
         }
-        .countdown-timer {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 10vw;
-            font-family: 'Arial', sans-serif;
-            color: rgba(255, 0, 195, 0.8);
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
-            font-weight: 900;
-            font-stretch: expanded;
-            opacity: 0.5; /* 50% transparency for the cyberpunk effect */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            z-index: 1000;
+
+        
+        #gameArea {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            border: 0px solid white;
+            background-color: transparent;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .blinking-button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: 3px solid transparent;
+            border-radius: 5px;
+            font-size: 18px;
             font-weight: bold;
-            text-align: center;
-        }
-        @keyframes colorChange {
-            0% { color: rgba(255, 0, 195, 0.8); }
-            25% { color: rgba(0, 255, 255, 0.8); }
-            50% { color: rgba(255, 0, 195, 0.8); }
-            75% { color: rgba(0, 255, 255, 0.8); }
-            100% { color: rgba(255, 0, 195, 0.8); }
-        }
-        .countdown-timer {
-            animation: colorChange 5s infinite;
-        }
-        .thumbs-up-container {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-        }
-        .thumbs-up-button {
-            font-size: 2em;
             cursor: pointer;
-            background: none;
-            border: none;
-            color: rgba(255, 0, 195, 0.8);
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+            transition: 0.5s;
+            animation: neon-blink 1s infinite alternate;
         }
-        .thumbs-up-count {
-            font-size: 2em;
-            margin-left: 10px;
-            color: rgba(255, 0, 195, 0.8);
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+
+        #deltar {
+            background-color: rgba(0, 255, 255, 0.7);
+            color: white;
         }
-        .save-counter {
+
+        #kommerIkke {
+            background-color: rgba(255, 0, 195, 0.7);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes neon-blink {
+            from {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            }
+            to {
+                box-shadow: 0 0 30px rgba(255, 255, 255, 1);
+            }
+        }
+
+        .ball {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 1em;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            color: rgba(255, 0, 195, 0.8);
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+            width: 40px;
+            height: 40px;
+            background-size: cover;
+        }
+
+        .emoji-stack {
+            position: absolute;
+            bottom: 0;
+            width: 50%;
+            height: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        #bottom-left {
+            left: 0;
+            border-right: 1px solid white;
+        }
+
+        #bottom-right {
+            right: 0;
+        }
+
+        .emoji {
+            font-size: 30px;
+            margin: 2px;
         }
     </style>
 </head>
 <body>
-    <canvas id="pongCanvas"></canvas>
-    <div class="spinning-text">HOLD THE DATE <br> 🎉 SATURDAY 🎉 <br> 26.10.2024<br>TRONDHEIM</div>
-    <div class="countdown-timer">
-        <div id="days"></div>:<div id="hours"></div>:<div id="minutes"></div>:<div id="seconds"></div>
+   
+    <div class="text"><a href="pong.html">🔙 Jeg vil spille pong</a></div>
+    <h1>Har jeg svart på melding og fortalt Kjersti at jeg kommer?</h1>
+    <button id="deltar" class="blinking-button">Ja, selvfølgelig!</button>
+    <button id="kommerIkke" class="blinking-button">Kommer ikke </button>
+    <div class="spinning-text">THESIS CELEBRATION PARTY <br> 🎉 SATURDAY 🎉 <br> 26.10.2024<br>TRONDHEIM</div>
+    <div id="gameArea">
+        <div id="bottom-left" class="emoji-stack"></div>
+        <div id="bottom-right" class="emoji-stack"></div>
     </div>
-    <div class="thumbs-up-container">
-        <button class="thumbs-up-button" onclick="incrementThumbsUp()"> Fæst ja! 👍</button>
-        <div class="thumbs-up-count" id="thumbsUpCount">33</div>
-    </div>
-    <div class="save-counter" id="saveCounter">Left Saves: 0 | Right Saves: 0</div>
 
     <script>
-        // Countdown Timer JavaScript
-        const targetDate = new Date("October 26, 2024 19:00:00").getTime();
+        const gameArea = document.getElementById('gameArea');
+        const deltarButton = document.getElementById('deltar');
+        const kommerIkkeButton = document.getElementById('kommerIkke');
+        const bottomLeft = document.getElementById('bottom-left');
+        const bottomRight = document.getElementById('bottom-right');
 
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const timeLeft = targetDate - now;
-
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-            document.getElementById('days').innerText = String(days).padStart(2, '0');
-            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        function createBall(imageUrl) {
+            const ball = document.createElement('div');
+            ball.classList.add('ball');
+            ball.style.backgroundImage = `url(${imageUrl})`;
+            ball.style.top = '0px';
+            ball.style.left = '50%';
+            gameArea.appendChild(ball);
+            return ball;
         }
 
-        setInterval(updateCountdown, 1000);
+        function applyPhysics(ball, direction, onComplete) {
+            let velocityY = 0;
+            let positionY = 0;
+            let velocityX = direction === 'left' ? -2 : 2;
+            let positionX = direction === 'left' ? 150 : 150;
+            let gravity = 0.5;
+            let damping = 0.95;  // To reduce bouncing over time
 
-        // Pong game JavaScript
-        const canvas = document.getElementById("pongCanvas");
-        const ctx = canvas.getContext("2d");
+            function update() {
+                // Apply gravity
+                velocityY += gravity;
+                positionY += velocityY;
+                positionX += velocityX;
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+                // Bounce horizontally within the game area
+                if (positionX <= 20 || positionX >= 260) {
+                    velocityX *= -1;
+                }
+
+                // Bounce vertically if reaching the bottom
+                if (positionY >= 360) {
+                    velocityY *= -damping;
+                    positionY = 360;
+
+                    // Slow down bounces
+                    if (Math.abs(velocityY) < 2) {
+                        clearInterval(interval);
+                        onComplete();
+                    }
+                }
+
+                // Update ball position
+                ball.style.top = `${positionY}px`;
+                ball.style.left = `${positionX}px`;
+            }
+
+            const interval = setInterval(update, 20);
         }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
 
-        let ball = {
-            x: canvas.width / 2,
-            y: canvas.height / 2,
-            radius: 10,
-            dx: 4,
-            dy: 4
-        };
-
-        const paddleWidth = 20;
-        const paddleHeight = 100;
-        let leftPaddleY = (canvas.height - paddleHeight) / 2;
-        let rightPaddleY = (canvas.height - paddleHeight) / 2;
-
-        let leftSaves = 0;
-        let rightSaves = 0;
-
-        const aiPaddleImg = new Image();
-        aiPaddleImg.src = 'kjerstiberg.png';
-
-        function moveLeftPaddle(y) {
-            leftPaddleY = Math.max(0, Math.min(y - paddleHeight / 2, canvas.height - paddleHeight));
+        function addEmojiToStack(emoji, stack) {
+            const emojiDiv = document.createElement('div');
+            emojiDiv.classList.add('emoji');
+            emojiDiv.textContent = emoji;
+            stack.appendChild(emojiDiv);
         }
 
-        canvas.addEventListener("mousemove", function(event) {
-            const rect = canvas.getBoundingClientRect();
-            const y = event.clientY - rect.top;
-            moveLeftPaddle(y);
+        deltarButton.addEventListener('click', () => {
+            const ball = createBall('kjerstiberg.png');
+            applyPhysics(ball, 'left', () => {
+                addEmojiToStack('🎉', bottomLeft);
+                ball.remove();
+            });
         });
 
-        canvas.addEventListener("touchmove", function(event) {
-            const touch = event.touches[0];
-            const rect = canvas.getBoundingClientRect();
-            const y = touch.clientY - rect.top;
-            moveLeftPaddle(y);
+        kommerIkkeButton.addEventListener('click', () => {
+            const ball = createBall('kjerstiberg.png');
+            applyPhysics(ball, 'right', () => {
+                addEmojiToStack('💀', bottomRight);
+                ball.remove();
+            });
         });
-
-        function drawPaddle(x, y, width, height) {
-            ctx.fillStyle = "pink";
-            ctx.fillRect(x, y, width, height);
-        }
-
-        function drawBall() {
-            ctx.beginPath();
-            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-            ctx.fillStyle = "pink";
-            ctx.fill();
-            ctx.closePath();
-        }
-
-        function drawAiPaddle(x,
- y) {
-            const aiPaddleSize = paddleHeight;
-            ctx.drawImage(aiPaddleImg, x, y, aiPaddleSize, aiPaddleSize);
-        }
-
-        function update() {
-            ball.x += ball.dx;
-            ball.y += ball.dy;
-
-            if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-                ball.dy = -ball.dy;
-            }
-
-            if (ball.x - ball.radius < paddleWidth && ball.y > leftPaddleY && ball.y < leftPaddleY + paddleHeight) {
-                ball.dx = -ball.dx;
-                leftSaves++;
-                updateSaveCounter();
-            }
-
-            rightPaddleY = ball.y - paddleHeight / 2;
-
-            const aiPaddleSize = paddleHeight;
-            if (ball.x + ball.radius > canvas.width - aiPaddleSize && ball.y > rightPaddleY && ball.y < rightPaddleY + aiPaddleSize) {
-                ball.dx = -ball.dx;
-                rightSaves++;
-                updateSaveCounter();
-            }
-
-            if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
-                ball.x = canvas.width / 2;
-                ball.y = canvas.height / 2;
-                ball.dx = -ball.dx;
-            }
-        }
-
-        function updateSaveCounter() {
-            document.getElementById('saveCounter').innerText = `Left Saves: ${leftSaves} | Right Saves: ${rightSaves}`;
-        }
-
-        function gameLoop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawPaddle(0, leftPaddleY, paddleWidth, paddleHeight);
-            drawAiPaddle(canvas.width - paddleHeight, rightPaddleY);
-            drawBall();
-            update();
-            requestAnimationFrame(gameLoop);
-        }
-
-        aiPaddleImg.onload = function() {
-            gameLoop();
-        };
-
-        let thumbsUpCount = 33;
-        function incrementThumbsUp() {
-            thumbsUpCount++;
-            document.getElementById("thumbsUpCount").innerText = thumbsUpCount;
-        }
     </script>
+
 </body>
 </html>
