@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DR.MOUNTAIN: THESIS CELEBRATION PARTY: 26/10/2024 @TRONDHEIM</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgb(206,161,104);
+            overflow: hidden;
+            background: url('bg.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        a:link { 
+        text-decoration: none; 
+        } 
+        a:visited { 
+        text-decoration: none; 
+        color: rgba(255, 0, 195, 0.5);
+        } 
+        a:hover { 
+        text-decoration: none; 
+        color: rgba(255, 0, 195, 0.5);
+        text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+        } 
+        a:active { 
+        text-decoration: none; 
+        color: rgba(0, 255, 255, 0.7);
+        }
+
+        .spinning-text {
+            position: absolute;
+            font-size: 2.5em; /* Smaller font size */
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: rgba(255, 0, 195, 0.8); /* Restored color */
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7), 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(255, 0, 195, 0.7);
+            animation: spin 10s linear infinite, blink 1s infinite, pulse 2s infinite;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            pointer-events: none;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        @keyframes pulse {
+            0% { text-shadow: 0 0 5px rgba(0, 255, 255, 0.7); }
+            50% { text-shadow: 0 0 20px rgba(255, 0, 195, 0.7); }
+            100% { text-shadow: 0 0 5px rgba(0, 255, 255, 0.7); }
+        }
+        .countdown-timer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10vw;
+            font-family: 'Arial', sans-serif;
+            color: rgba(255, 0, 195, 0.8);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+            font-weight: 900;
+  font-stretch: expanded;
+  opacity: 0.5; /* 50% transparency for the cyberpunk effect */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 1000;
+            font-weight: bold;
+            text-align: center;
+        }
+        @keyframes colorChange {
+            0% { color: rgba(255, 0, 195, 0.8); }
+            25% { color: rgba(0, 255, 255, 0.8); }
+            50% { color: rgba(255, 0, 195, 0.8); }
+            75% { color: rgba(0, 255, 255, 0.8); }
+            100% { color: rgba(255, 0, 195, 0.8); }
+        }
+        .countdown-timer {
+            animation: colorChange 5s infinite;
+        }
+        .thumbs-up-container {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .thumbs-up-button {
+            font-size: 2em;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: rgba(255, 0, 195, 0.8);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+        }
+        .thumbs-up-count {
+            font-size: 2em;
+            margin-left: 10px;
+            color: rgba(255, 0, 195, 0.8);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+        }
+        .save-counter {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1em;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: rgba(255, 0, 195, 0.8);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="pongCanvas"></canvas>
+    <div class="spinning-text">THESIS CELEBRATION PARTY <br> 🎉 SATURDAY 🎉 <br> 26.10.2024<br>TRONDHEIM</div>
+    <a href="index.html"><div class="countdown-timer">
+        <div id="days"></div>:<div id="hours"></div>:<div id="minutes"></div>:<div id="seconds"></div>
+    </div></a>
+    <div class="thumbs-up-container">
+        <button class="thumbs-up-button" onclick="incrementThumbsUp()"> Fæst ja! 👍</button>
+        <div class="thumbs-up-count" id="thumbsUpCount">69</div>
+    </div>
+    <div class="save-counter" id="saveCounter">Left Saves: 0 | Right Saves: 0</div>
+
+    <script>
+        // Countdown Timer JavaScript
+        const targetDate = new Date("October 26, 2024 19:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeLeft = targetDate - now;
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+
+        // Pong game JavaScript
+        const canvas = document.getElementById("pongCanvas");
+        const ctx = canvas.getContext("2d");
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let ball = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            radius: 10,
+            dx: 4,
+            dy: 4
+        };
+
+        const paddleWidth = 20;
+        const paddleHeight = 100;
+        let leftPaddleY = (canvas.height - paddleHeight) / 2;
+        let rightPaddleY = (canvas.height - paddleHeight) / 2;
+
+        let leftSaves = 0;
+        let rightSaves = 0;
+
+        const aiPaddleImg = new Image();
+        aiPaddleImg.src = 'kjerstiberg.png';
+
+        function moveLeftPaddle(y) {
+            leftPaddleY = Math.max(0, Math.min(y - paddleHeight / 2, canvas.height - paddleHeight));
+        }
+
+        canvas.addEventListener("mousemove", function(event) {
+            const rect = canvas.getBoundingClientRect();
+            const y = event.clientY - rect.top;
+            moveLeftPaddle(y);
+        });
+
+        canvas.addEventListener("touchmove", function(event) {
+            const touch = event.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const y = touch.clientY - rect.top;
+            moveLeftPaddle(y);
+        });
+
+        function drawPaddle(x, y, width, height) {
+            ctx.fillStyle = "pink";
+            ctx.fillRect(x, y, width, height);
+        }
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = "pink";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawAiPaddle(x,
+ y) {
+            const aiPaddleSize = paddleHeight;
+            ctx.drawImage(aiPaddleImg, x, y, aiPaddleSize, aiPaddleSize);
+        }
+
+        function update() {
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+                ball.dy = -ball.dy;
+            }
+
+            if (ball.x - ball.radius < paddleWidth && ball.y > leftPaddleY && ball.y < leftPaddleY + paddleHeight) {
+                ball.dx = -ball.dx;
+                leftSaves++;
+                updateSaveCounter();
+            }
+
+            rightPaddleY = ball.y - paddleHeight / 2;
+
+            const aiPaddleSize = paddleHeight;
+            if (ball.x + ball.radius > canvas.width - aiPaddleSize && ball.y > rightPaddleY && ball.y < rightPaddleY + aiPaddleSize) {
+                ball.dx = -ball.dx;
+                rightSaves++;
+                updateSaveCounter();
+            }
+
+            if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
+                ball.x = canvas.width / 2;
+                ball.y = canvas.height / 2;
+                ball.dx = -ball.dx;
+            }
+        }
+
+        function updateSaveCounter() {
+            document.getElementById('saveCounter').innerText = `Left Saves: ${leftSaves} | Right Saves: ${rightSaves}`;
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPaddle(0, leftPaddleY, paddleWidth, paddleHeight);
+            drawAiPaddle(canvas.width - paddleHeight, rightPaddleY);
+            drawBall();
+            update();
+            requestAnimationFrame(gameLoop);
+        }
+
+        aiPaddleImg.onload = function() {
+            gameLoop();
+        };
+
+        let thumbsUpCount = 69;
+        function incrementThumbsUp() {
+            thumbsUpCount++;
+            document.getElementById("thumbsUpCount").innerText = thumbsUpCount;
+        }
+    </script>
+</body>
+</html>
