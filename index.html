@@ -3,70 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Har jeg svart på melding og fortalt Kjersti at jeg kommer?</title>
+    <title>Neon List Animation</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: rgb(206,161,104);
+            background-color: black;
+            overflow: hidden;
             background: url('bg_iv.png') no-repeat center center fixed;
-            color: white;
-            font-family: Arial, sans-serif;
             background-size: cover;
-            position: relative;
+            flex-direction: column;
         }
 
-        .text {
-            color: rgba(255, 0, 195, 0.5);
-        
-        } 
-        a:link { 
-        text-decoration: none; 
-        color: rgba(255, 0, 195, 0.5);
-        } 
-        a:visited { 
-        text-decoration: none; 
-        color: rgba(255, 0, 195, 0.5);
-        } 
-        a:hover { 
-        text-decoration: none; 
-        color: rgba(255, 0, 195, 0.5);
-        text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
-        } 
-        a:active { 
-        text-decoration: none; 
-        color: rgba(0, 255, 255, 0.7);
-        }
-
-        .spinning-text {
+        .list-item {
             position: absolute;
-            font-size: 2.5em; /* Smaller font size */
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            color: rgba(255, 0, 195, 0.8); /* Restored color */
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7), 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(255, 0, 195, 0.7);
-            animation: spin 10s linear infinite, blink 1s infinite, pulse 2s infinite;
-            text-align: center;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            pointer-events: none;
+            font-size: 0;
+            color: #00ffea;
+            font-family: 'Arial', sans-serif;
+            text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+            opacity: 0;
         }
 
-        h1 {
-            font-size: 30px;
+        .final-list {
+            position: relative;
+            font-size: 2rem;
+            color: #00ffea;
+            font-family: 'Arial', sans-serif;
+            text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+            margin-top: 2rem;
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: translate(var(--x), var(--y)) scale(0);
+                opacity: 0;
+            }
+            25% {
+                transform: translate(0, 0) scale(1);
+                font-size: 10rem;
+                opacity: 1;
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffea;
+            }
+            100% {
+                text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ea;
+            }
+        }
+
+        .countdown-timer {
+            position: relative;
+            font-size: 10vw;
             font-family: 'Arial', sans-serif;
             color: rgba(255, 0, 195, 0.8);
             text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
             font-weight: 900;
-            
-  font-stretch: expanded;
-  opacity: 0.7; /* 50% transparency for the cyberpunk effect */
+            font-stretch: expanded;
+            opacity: 0.5;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -84,188 +91,80 @@
             75% { color: rgba(0, 255, 255, 0.8); }
             100% { color: rgba(255, 0, 195, 0.8); }
         }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        @keyframes pulse {
-            0% { text-shadow: 0 0 5px rgba(0, 255, 255, 0.7); }
-            50% { text-shadow: 0 0 20px rgba(255, 0, 195, 0.7); }
-            100% { text-shadow: 0 0 5px rgba(0, 255, 255, 0.7); }
-        }
-
-        
-        #gameArea {
-            position: relative;
-            width: 300px;
-            height: 400px;
-            border: 0px solid white;
-            background-color: transparent;
-            margin-top: 20px;
-            overflow: hidden;
-        }
-
-        .blinking-button {
-            padding: 10px 20px;
-            margin: 10px;
-            border: 3px solid transparent;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.5s;
-            animation: neon-blink 1s infinite alternate;
-        }
-
-        #deltar {
-            background-color: rgba(0, 255, 255, 0.7);
-            color: white;
-        }
-
-        #kommerIkke {
-            background-color: rgba(255, 0, 195, 0.7);
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        @keyframes neon-blink {
-            from {
-                box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-            }
-            to {
-                box-shadow: 0 0 30px rgba(255, 255, 255, 1);
-            }
-        }
-
-        .ball {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background-size: cover;
-        }
-
-        .emoji-stack {
-            position: absolute;
-            bottom: 0;
-            width: 50%;
-            height: auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: flex-end;
-        }
-
-        #bottom-left {
-            left: 0;
-            border-right: 1px solid white;
-        }
-
-        #bottom-right {
-            right: 0;
-        }
-
-        .emoji {
-            font-size: 30px;
-            margin: 2px;
-        }
     </style>
 </head>
 <body>
-   
-    <div class="text"><a href="pong.html">🔙 Jeg vil spille pong</a></div>
-    <h1>Har jeg svart på<br>melding og fortalt Kjersti<br>at jeg kommer?</h1>
-    <button id="deltar" class="blinking-button">Ja, selvfølgelig!</button>
-    <button id="kommerIkke" class="blinking-button">Ellers takk </button>
-    <div class="spinning-text">THESIS CELEBRATION PARTY <br> 🎉 SATURDAY 🎉 <br> 26.10.2024<br>TRONDHEIM</div>
-    <div id="gameArea">
-        <div id="bottom-left" class="emoji-stack"></div>
-        <div id="bottom-right" class="emoji-stack"></div>
-    </div>
+    <a href="https://drmountain.net" style="text-decoration: none;">
+        <div class="countdown-timer">
+            <div id="days"></div>:<div id="hours"></div>:<div id="minutes"></div>:<div id="seconds"></div>
+        </div>
+    </a>
+
+    <ul id="animated-list" style="list-style: none;">
+        <li class="list-item">👗 Dress code: nice outfit 👔</li>
+        <li class="list-item"><a href="https://maps.app.goo.gl/B18MXwANz5d8o6Nv6" target="_blank" style="color: #00ffea; text-decoration: none;">📍 Location: Fiskhallen, Taraldsgårdsveita 11</a></li>
+        <li class="list-item">🕖 Party starts around 19:00</li>
+        <li class="list-item">🕓 Early arrival is allowed from 16:00</li>
+        <li class="list-item">🥡 Possible self-organized take-away from 16:00</li>
+        <li class="list-item">⚠️ No dinner will be served</li>
+        <li class="list-item">🍾 B.Y.O.B. 🥂</li>
+        <li class="list-item">🍟 Some snacks will be available</li>
+        <li class="list-item">🎁 Kjersti don't want gifts</li>
+        <li class="list-item">🍷 but contributions to a shared bar are welcome 🍻</li>
+    </ul>
+
+    <ul id="final-list" class="final-list"></ul>
 
     <script>
-        const gameArea = document.getElementById('gameArea');
-        const deltarButton = document.getElementById('deltar');
-        const kommerIkkeButton = document.getElementById('kommerIkke');
-        const bottomLeft = document.getElementById('bottom-left');
-        const bottomRight = document.getElementById('bottom-right');
+        document.addEventListener("DOMContentLoaded", function () {
+            const listItems = document.querySelectorAll(".list-item");
+            const finalList = document.getElementById("final-list");
 
-        function createBall(imageUrl) {
-            const ball = document.createElement('div');
-            ball.classList.add('ball');
-            ball.style.backgroundImage = `url(${imageUrl})`;
-            ball.style.top = '0px';
-            ball.style.left = '50%';
-            gameArea.appendChild(ball);
-            return ball;
-        }
+            function animateItem(index) {
+                if (index >= listItems.length) return;
 
-        function applyPhysics(ball, direction, onComplete) {
-            let velocityY = 0;
-            let positionY = 0;
-            let velocityX = direction === 'left' ? -2 : 2;
-            let positionX = direction === 'left' ? 150 : 150;
-            let gravity = 0.5;
-            let damping = 0.90;  // To reduce bouncing over time
+                const item = listItems[index];
+                const x = Math.random() * 100 - 50 + "vw";
+                const y = Math.random() * 100 - 50 + "vh";
 
-            function update() {
-                // Apply gravity
-                velocityY += gravity;
-                positionY += velocityY;
-                positionX += velocityX;
+                item.style.setProperty('--x', x);
+                item.style.setProperty('--y', y);
+                item.style.animation = "popIn 5.33s ease forwards, pulse 1.33s infinite alternate";
+                item.style.opacity = "1";
 
-                // Bounce horizontally within the game area
-                if (positionX <= 20 || positionX >= 260) {
-                    velocityX *= -1;
-                }
+                // Wait for 5.33 seconds (duration of popIn animation) before starting the next item
+                setTimeout(() => {
+                    // Move item to final list
+                    const listItem = document.createElement("li");
+                    listItem.innerHTML = item.innerHTML;
+                    finalList.appendChild(listItem);
 
-                // Bounce vertically if reaching the bottom
-                if (positionY >= 360) {
-                    velocityY *= -damping;
-                    positionY = 360;
-
-                    // Slow down bounces
-                    if (Math.abs(velocityY) < 2) {
-                        clearInterval(interval);
-                        onComplete();
-                    }
-                }
-
-                // Update ball position
-                ball.style.top = `${positionY}px`;
-                ball.style.left = `${positionX}px`;
+                    animateItem(index + 1);
+                }, 5333);
             }
 
-            const interval = setInterval(update, 20);
-        }
-
-        function addEmojiToStack(emoji, stack) {
-            const emojiDiv = document.createElement('div');
-            emojiDiv.classList.add('emoji');
-            emojiDiv.textContent = emoji;
-            stack.appendChild(emojiDiv);
-        }
-
-        deltarButton.addEventListener('click', () => {
-            const ball = createBall('kjerstiberg.png');
-            applyPhysics(ball, 'left', () => {
-                addEmojiToStack('🎉', bottomLeft);
-                ball.remove();
-            });
+            animateItem(0);
         });
 
-        kommerIkkeButton.addEventListener('click', () => {
-            const ball = createBall('kjerstiberg.png');
-            applyPhysics(ball, 'right', () => {
-                addEmojiToStack('💀', bottomRight);
-                ball.remove();
-            });
-        });
+        // Countdown Timer JavaScript
+        const targetDate = new Date("October 26, 2024 19:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeLeft = targetDate - now;
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
     </script>
-
 </body>
 </html>
