@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enthusiasm</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgb(206,161,104);
+            background: url('bg_iv.png') no-repeat center center fixed;
+            color: white;
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            position: relative;
+        }
+
+        .text {
+            color: rgba(255, 0, 195, 0.5);
+        
+        } 
+        a:link { 
+        text-decoration: none; 
+        color: rgba(255, 0, 195, 0.5);
+        } 
+        a:visited { 
+        text-decoration: none; 
+        color: rgba(255, 0, 195, 0.5);
+        } 
+        a:hover { 
+        text-decoration: none; 
+        color: rgba(255, 0, 195, 0.5);
+        text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+        } 
+        a:active { 
+        text-decoration: none; 
+        color: rgba(0, 255, 255, 0.7);
+        }
+
+        .spinning-text {
+            position: absolute;
+            font-size: 2.5em; /* Smaller font size */
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: rgba(255, 0, 195, 0.8); /* Restored color */
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7), 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(255, 0, 195, 0.7);
+            animation: spin 10s linear infinite, blink 1s infinite, pulse 2s infinite;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            pointer-events: none;
+        }
+
+        h1 {
+            font-size: 30px;
+            font-family: 'Arial', sans-serif;
+            color: rgba(255, 0, 195, 0.8);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+            font-weight: 900;
+            
+  font-stretch: expanded;
+  opacity: 0.7; /* 50% transparency for the cyberpunk effect */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 1000;
+            font-weight: bold;
+            text-align: center;
+            animation: colorChange 5s infinite;
+        }
+
+        @keyframes colorChange {
+            0% { color: rgba(255, 0, 195, 0.8); }
+            25% { color: rgba(0, 255, 255, 0.8); }
+            50% { color: rgba(255, 0, 195, 0.8); }
+            75% { color: rgba(0, 255, 255, 0.8); }
+            100% { color: rgba(255, 0, 195, 0.8); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        @keyframes pulse {
+            0% { text-shadow: 0 0 5px rgba(0, 255, 255, 0.7); }
+            50% { text-shadow: 0 0 20px rgba(255, 0, 195, 0.7); }
+            100% { text-shadow: 0 0 5px rgba(0, 255, 255, 0.7); }
+        }
+
+        
+        #gameArea {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            border: 0px solid white;
+            background-color: transparent;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .blinking-button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: 3px solid transparent;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.5s;
+            animation: neon-blink 1s infinite alternate;
+        }
+
+        #deltar {
+            background-color: rgba(0, 255, 255, 0.7);
+            color: white;
+        }
+
+        #kommerIkke {
+            background-color: rgba(255, 0, 195, 0.7);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes neon-blink {
+            from {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            }
+            to {
+                box-shadow: 0 0 30px rgba(255, 255, 255, 1);
+            }
+        }
+
+        .ball {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-size: cover;
+        }
+
+        .emoji-stack {
+            position: absolute;
+            bottom: 0;
+            width: 50%;
+            height: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        #bottom-left {
+            left: 0;
+            border-right: 1px solid white;
+        }
+
+        #bottom-right {
+            right: 0;
+        }
+
+        .emoji {
+            font-size: 30px;
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="text"><a href="pong.html">🔙 Jeg vil spille pong</a></div>
+    <h1>Hvor mye gleder jeg meg<br>til festen og til<br>å ha det gøy med Kjersti?</h1>
+    <button id="deltar" class="blinking-button">Enormt mye!</button>
+    <button id="kommerIkke" class="blinking-button">Like mye som forrige knapp! </button>
+    <div class="spinning-text">THESIS CELEBRATION PARTY <br> 🎉 SATURDAY 🎉 <br> 26.10.2024<br>TRONDHEIM</div>
+    <div id="gameArea">
+        <div id="bottom-left" class="emoji-stack"></div>
+        <div id="bottom-right" class="emoji-stack"></div>
+    </div>
+
+    <script>
+        const gameArea = document.getElementById('gameArea');
+        const deltarButton = document.getElementById('deltar');
+        const kommerIkkeButton = document.getElementById('kommerIkke');
+        const bottomLeft = document.getElementById('bottom-left');
+        const bottomRight = document.getElementById('bottom-right');
+
+        function createBall(imageUrl) {
+            const ball = document.createElement('div');
+            ball.classList.add('ball');
+            ball.style.backgroundImage = `url(${imageUrl})`;
+            ball.style.top = '0px';
+            ball.style.left = '50%';
+            gameArea.appendChild(ball);
+            return ball;
+        }
+
+        function applyPhysics(ball, direction, onComplete) {
+            let velocityY = 0;
+            let positionY = 0;
+            let velocityX = direction === 'left' ? -2 : 2;
+            let positionX = direction === 'left' ? 150 : 150;
+            let gravity = 0.5;
+            let damping = 0.90;  // To reduce bouncing over time
+
+            function update() {
+                // Apply gravity
+                velocityY += gravity;
+                positionY += velocityY;
+                positionX += velocityX;
+
+                // Bounce horizontally within the game area
+                if (positionX <= 20 || positionX >= 260) {
+                    velocityX *= -1;
+                }
+
+                // Bounce vertically if reaching the bottom
+                if (positionY >= 360) {
+                    velocityY *= -damping;
+                    positionY = 360;
+
+                    // Slow down bounces
+                    if (Math.abs(velocityY) < 2) {
+                        clearInterval(interval);
+                        onComplete();
+                    }
+                }
+
+                // Update ball position
+                ball.style.top = `${positionY}px`;
+                ball.style.left = `${positionX}px`;
+            }
+
+            const interval = setInterval(update, 20);
+        }
+
+        function addEmojiToStack(emoji, stack) {
+            const emojiDiv = document.createElement('div');
+            emojiDiv.classList.add('emoji');
+            emojiDiv.textContent = emoji;
+            stack.appendChild(emojiDiv);
+        }
+
+        deltarButton.addEventListener('click', () => {
+            const ball = createBall('kjerstiberg.png');
+            applyPhysics(ball, 'left', () => {
+                addEmojiToStack('🎉', bottomLeft);
+                ball.remove();
+            });
+        });
+
+        kommerIkkeButton.addEventListener('click', () => {
+            const ball = createBall('kjerstiberg.png');
+            applyPhysics(ball, 'right', () => {
+                addEmojiToStack('🍹', bottomRight);
+                ball.remove();
+            });
+        });
+    </script>
+
+</body>
+</html>
