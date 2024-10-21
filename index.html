@@ -113,11 +113,18 @@
         <li class="list-item">🍷 but contributions to a shared bar are welcome 🍻</li>
        <li class="list-item"><a href="pong.html" style="color: #00ffea; text-decoration: none;">🕹️ Stay stoked and play PONG 🎮</a></li>
     </ul>
-
-    <ul id="final-list" class="final-list"></ul>
+    <ul id="final-list" class="final-list" style="font-size: calc(2rem * var(--scale));"></ul>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            function adjustFinalListFontSize() {
+                const finalList = document.getElementById("final-list");
+                let scale = 1;
+                while (finalList.scrollHeight > window.innerHeight * 0.5 && scale > 0.5) {
+                    scale -= 0.05;
+                    finalList.style.fontSize = `calc(2rem * ${scale})`;
+                }
+            }
             const listItems = document.querySelectorAll(".list-item");
             const finalList = document.getElementById("final-list");
 
@@ -139,6 +146,7 @@
                     const listItem = document.createElement("li");
                     listItem.innerHTML = item.innerHTML;
                     finalList.appendChild(listItem);
+                    adjustFinalListFontSize();
 
                     animateItem(index + 1);
                 }, 5333);
