@@ -92,8 +92,50 @@
             100% { color: rgba(255, 0, 195, 0.8); }
         }
     </style>
+    <style>
+        .skip-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #009999;
+            color: #222;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            font-family: 'Arial', sans-serif;
+            font-size: 0.75rem;
+            text-shadow: 0 0 3px #007777, 0 0 5px #007777;
+            opacity: 0.8;
+        }
+    </style>
+    <style>
+        .button-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-button {
+            background-color: #009999;
+            color: #222;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            font-family: 'Arial', sans-serif;
+            font-size: 0.75rem;
+            text-shadow: 0 0 3px #007777, 0 0 5px #007777;
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
+    <div class="button-container">
+        <button class="action-button" onclick="skipAnimation()">Skip to full list</button>
+        <a href="pong.html"><button class="action-button">PONG</button></a>
+        <a href="enthusiasm.html"><button class="action-button">Enthusiasm</button></a>
+    </div>
     <a href="https://drmountain.net" style="text-decoration: none;">
         <div class="countdown-timer">
             <div id="days"></div>:<div id="hours"></div>:<div id="minutes"></div>:<div id="seconds"></div>
@@ -175,6 +217,35 @@
         }
 
         setInterval(updateCountdown, 1000);
+    </script>
+    
+    <script>
+        function skipAnimation() {
+            const listItems = document.querySelectorAll(".list-item");
+            const finalList = document.getElementById("final-list");
+
+            listItems.forEach(item => {
+                const listItem = document.createElement("li");
+                listItem.innerHTML = item.innerHTML;
+                finalList.appendChild(listItem);
+            });
+
+            adjustFinalListFontSize();
+        }
+    </script>
+<script>
+        function skipAnimation() {
+            const listItems = document.querySelectorAll(".list-item");
+            const finalList = document.getElementById("final-list");
+
+            listItems.forEach(item => {
+                const listItem = document.createElement("li");
+                listItem.innerHTML = item.innerHTML;
+                finalList.appendChild(listItem);
+            });
+
+            adjustFinalListFontSize();
+        }
     </script>
 </body>
 </html>
