@@ -151,6 +151,23 @@
             text-shadow: 0 0 3px #007777, 0 0 5px #007777;
             opacity: 0.8;
         }
+            @keyframes meander {
+            0% {
+                transform: translate(0, 0) scale(1.2);
+            }
+            25% {
+                transform: translate(5px, -3px) scale(1.2);
+            }
+            50% {
+                transform: translate(-5px, 5px) scale(1.2);
+            }
+            75% {
+                transform: translate(3px, -5px) scale(1.2);
+            }
+            100% {
+                transform: translate(0, 0) scale(1.2);
+            }
+        }
     </style>
 </head>
 <body>
@@ -243,8 +260,9 @@
                     bubble.style.opacity = 1;
                     bubble.style.animation = 'fadeInZoomIn 1.5s ease forwards';
                     if (index >= chatBubbles.length - 3) {
-                        // Make the last three chat bubbles slightly larger and maintain arrival animation
+                        // Make the last three chat bubbles slightly larger, maintain arrival animation, and add meandering effect
                         bubble.style.transform = 'scale(1.2)';
+                        bubble.style.animation = 'fadeInZoomIn 1.5s ease forwards, meander 8s infinite ease-in-out';
                     } else {
                         // Fade out older bubbles
                         setTimeout(() => {
