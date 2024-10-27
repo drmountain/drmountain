@@ -1,4 +1,4 @@
-7<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -168,6 +168,104 @@
                 transform: translate(0, 0) scale(1.2);
             }
         }
+
+        .banner-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3000;
+            pointer-events: none;
+            animation: stampAnimation 0.6s ease-out forwards, neonPulse 1.5s ease-in-out infinite;
+        }
+
+        .banner-text {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 3em; /* Increased size for better visibility */
+            font-weight: bold;
+            color: rgba(255, 0, 195, 0.8);
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 0.8s forwards; /* Fade in effect */
+            text-shadow: 
+                0 0 5px rgba(255, 0, 195, 0.8), 
+                0 0 10px #009999, 
+                0 0 15px #009999, 
+                0 0 20px #00ffff, 
+                0 0 25px rgba(255, 0, 195, 0.8);
+        }
+
+        /* Neon Flashing Animation */
+        @keyframes neonPulse {
+            0%, 100% {
+                text-shadow: 
+                0 0 5px rgba(255, 0, 195, 0.8) 
+                0 0 10px #00ffff, 
+                0 0 15px #009999, 
+                0 0 20px #009999, 
+                0 0 25px #009999;
+                opacity: 0.9;
+            }
+            50% {
+                text-shadow: 
+                    0 0 10px rgba(255, 0, 195, 0.8), 
+                    0 0 20px rgba(255, 0, 195, 0.8), 
+                    0 0 30px #00ffff, 
+                    0 0 40px #009999, 
+                    0 0 50px #00ffff,;
+                opacity: 1;
+            }
+        }
+
+        /* Fade In Effect */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 0.8; }
+        }
+
+        /* Stamp Animation */
+        @keyframes stampAnimation {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            20% { transform: translate(-50%, -50%) scale(1.1); }
+            40% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+              /* Scrolling Lyrics Container (Isolated) */
+              .credits-container {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 2500;
+        }
+
+        .credits-text {
+            font-size: 1.2em;
+            color: #00ffff;
+            font-family: 'Arial', sans-serif;
+            text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ea;
+            line-height: 1.5em;
+            text-align: center;
+            animation: scrollUp 140s linear infinite;
+        }
+
+        .chorus {
+            color: #690169;
+            font-weight: bold;
+            text-shadow: 0 0 20px #00ffff;, 0 0 30px #ff00ea;
+        }
+
+        @keyframes scrollUp {
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(-100%); }
+        }
+
     </style>
 </head>
 <body>
@@ -213,6 +311,74 @@
         <li class="list-item"><a href="pong.html" style="color: #00ffea; text-decoration: none;">🕹️ Stay stoked and play PONG 🎮</a></li>
     </ul>
     <ul id="final-list" class="final-list" style="font-size: calc(2rem * var(--scale));"></ul>
+
+    <div class="banner-container">
+        <div class="banner-text">🤩 Takk for festen, dere er fantastiske folk! 😍</div>
+    </div>
+
+    <div class="credits-container">
+        <div class="credits-text">
+   
+            <p class="chorus">Høvlerivisa by Vømmøl Spelemannslag</p>
+            
+            <!-- Verse 1 with 5 lines -->
+            <p>Her på Stranda Sag & Høvleri</p>
+            <p>Her e vi fjorten mann</p>
+            <p>Vi sage og vi høvle, vi</p>
+            <p>Gran og bjørk og hickory</p>
+            <p>Og stokka som e grop og grann</p>
+
+            <!-- Chorus with 5 lines -->
+            <p class="chorus">Og høvli ruvli ravli rei - HURRA!</p>
+            <p class="chorus">Hurra for høvleriet nedpå Stranda</p>
+            <p class="chorus">Som har fjorten arbeidsdøktig manna</p>
+            <p class="chorus">Fjorten mann</p>
+            <p class="chorus">Med standpunkt te sin stand</p>
+
+            <!-- Verse 2 with 5 lines -->
+            <p>Vi selg vår egen arbeidskraft</p>
+            <p>Te høvleriets boss</p>
+            <p>Sagbruksmester Gyldentand</p>
+            <p>En meget velbeholden mann</p>
+            <p>Takket være oss</p>
+
+            <!-- Chorus with 5 lines -->
+            <p class="chorus">Og høvli ruvli ravli rei - HURRA!</p>
+            <p class="chorus">Hurra for høvleriet nedpå Stranda</p>
+            <p class="chorus">Som har fjorten arbeidsdøktig manna</p>
+            <p class="chorus">Fjorten mann</p>
+            <p class="chorus">Med standpunkt te sin stand</p>
+
+            <!-- Verse 3 with 5 lines -->
+            <p>Gyldentand har stort kontor</p>
+            <p>Han sitt no der og skriver</p>
+            <p>Store tall og store ord</p>
+            <p>Og gnir sæ I sitt nesebor</p>
+            <p>I profittjakt og iver</p>
+
+            <!-- Chorus with 5 lines -->
+            <p class="chorus">Og høvli ruvli ravli rei - HURRA!</p>
+            <p class="chorus">Hurra for høvleriet nedpå Stranda</p>
+            <p class="chorus">Som har fjorten arbeidsdøktig manna</p>
+            <p class="chorus">Fjorten mann</p>
+            <p class="chorus">Med standpunkt te sin stand</p>
+
+            <!-- Verse 4 with 5 lines -->
+            <p>Når prisan stig, da klage vi</p>
+            <p>Og vil ha meire peng</p>
+            <p>Men Gyldentand, han berre si</p>
+            <p>At Stranda Sag & Høvleri</p>
+            <p>E konkursmoden om itj så leng</p>
+
+            <!-- Final Chorus with 5 lines -->
+            <p class="chorus">Og høvli ruvli ravli rei - HURRA!</p>
+            <p class="chorus">Hurra for høvleriet nedpå Stranda</p>
+            <p class="chorus">Som har fjorten arbeidsdøktig manna</p>
+            <p class="chorus">Fjorten mann</p>
+            <p class="chorus">Med standpunkt te sin stand</p>
+        
+        </div>
+    </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
